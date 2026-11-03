@@ -22,23 +22,32 @@ class ContactService {
         return contact;
     }
 
+    // Create a new contact
     async create(payload) {
         const contact = this.extractContactData(payload);
         const result = await this.Contact.insertOne(contact);
         return result.insertedId;
     }
 
+    // Find all contacts
     async find(filter) {
         const cursor = await this.Contact.find(filter);
         return await cursor.toArray();
     }
 
+    // Find contacts by name
     async findByName(name) {
         return await this.find({
             name: { $regex: name, $options: "i" },
         });
     }
 
+    // Find all favorite contacts
+    async findFavorite() {
+        return await this.find({ favorite: true });
+    }
+
+    // Find a contact by ID
     async findById(id) {
         if (!ObjectId.isValid(id)) return null;
 
@@ -47,6 +56,7 @@ class ContactService {
         });
     }
 
+    // Update a contact
     async update(id, payload) {
         if (!ObjectId.isValid(id)) return null;
 
@@ -60,6 +70,7 @@ class ContactService {
         return await this.findById(id);
     }
 
+    // Delete a contact by ID
     async delete(id) {
         if (!ObjectId.isValid(id)) return null;
 
@@ -70,6 +81,7 @@ class ContactService {
         return result;
     }
 
+    // Delete all contacts
     async deleteAll() {
         const result = await this.Contact.deleteMany({});
         return result.deletedCount;
