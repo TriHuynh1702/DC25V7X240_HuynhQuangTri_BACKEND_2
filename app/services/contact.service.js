@@ -6,21 +6,22 @@ class ContactService {
         this.Contact = client.db().collection("contacts");
     }
 
-    extractContactData(payload) {
-        const contact = {
-            name: payload.name,
-            email: payload.email,
-            address: payload.address,
-            phone: payload.phone,
-            favorite: payload.favorite,
-        };
+   extractContactData(payload) {
+    const contact = {
+        name: payload.name,
+        email: payload.email,
+        address: payload.address,
+        phone: payload.phone,
+        favorite: payload.favorite,
+        interests: payload.interests,
+    };
 
-        Object.keys(contact).forEach(
-            (key) => contact[key] === undefined && delete contact[key]
-        );
+    Object.keys(contact).forEach(
+        (key) => contact[key] === undefined && delete contact[key]
+    );
 
-        return contact;
-    }
+    return contact;
+}
 
     // Create a new contact
     async create(payload) {
